@@ -40,7 +40,11 @@ public class TvShowListingPresenter extends BasePresenter<TvShowListingView> {
                     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                         if (view != null) {
                             if (pageNumber == 1) {
-                                view.hideProgress();
+                                if (view.isRefreshing()) {
+                                    view.hideRefreshing();
+                                } else {
+                                    view.hideProgress();
+                                }
                             } else {
                                 view.hideTvShowsLoadingProgress();
                             }
@@ -52,8 +56,12 @@ public class TvShowListingPresenter extends BasePresenter<TvShowListingView> {
                     public void onFailure(Call<Response> call, Throwable t) {
                         if (view != null) {
                             if (pageNumber == 1) {
-                                view.hideProgress();
-                                view.showTvShowLoadingError();
+                                if (view.isRefreshing()) {
+                                    view.hideRefreshing();
+                                } else {
+                                    view.hideProgress();
+                                    view.showTvShowLoadingError();
+                                }
                             } else {
                                 view.hideTvShowsLoadingProgress();
                             }
@@ -66,5 +74,10 @@ public class TvShowListingPresenter extends BasePresenter<TvShowListingView> {
         pageNumber++;
         loadTvShows();
         view.showTvShowsLoadingProgress();
+    }
+
+    public void reload() {
+        pageNumber = 1;
+        loadTvShows();
     }
 }

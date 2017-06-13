@@ -25,4 +25,8 @@ public interface TvShowListingView {
     void showTvShowLoadingError(String reason);
 
     void showTvShowLoadingError();
+
+    boolean isRefreshing();
+
+    void hideRefreshing();
 }

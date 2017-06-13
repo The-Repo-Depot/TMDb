@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import tushar.letgo.tmdb.R;
 import tushar.letgo.tmdb.common.mvp.BasePresenterFragment;
+import tushar.letgo.tmdb.common.view.DaddySwipeRefreshLayout;
 import tushar.letgo.tmdb.common.view.EndlessRecyclerOnScrollListener;
 import tushar.letgo.tmdb.dipendency.feature.tvshowlisting.TvShowListingModule;
 import tushar.letgo.tmdb.model.TvShow;
@@ -34,7 +36,7 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     public static final String TAG = TvShowListingFragment.class.getName();
 
     @Bind(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    DaddySwipeRefreshLayout mSwipeRefreshLayout;
 
     @Bind(R.id.tv_list)
     RecyclerView mTvShowRecyclerView;
@@ -87,6 +89,12 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     private void initSwipeRefreshLayout() {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setCanChildScrollUpCallback(new DaddySwipeRefreshLayout.ScrollUpApplicableListener() {
+            @Override
+            public boolean isScrollUpApplicable() {
+                return mTvShowRecyclerView != null && ViewCompat.canScrollVertically(mTvShowRecyclerView, -1);
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -140,7 +148,8 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
 
     @Override
     public void onRefresh() {
-
+        getPresenter().reload();
+        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
@@ -198,5 +207,15 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
                 mErrorNoContentView.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public boolean isRefreshing() {
+        return mSwipeRefreshLayout.isRefreshing();
+    }
+
+    @Override
+    public void hideRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }
