@@ -1,6 +1,11 @@
 package tushar.letgo.tmdb.api;
 
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 import tushar.letgo.tmdb.BuildConfig;
+import tushar.letgo.tmdb.model.Response;
 
 /**
  * Created by Tushar on 6/13/17.
@@ -8,4 +13,15 @@ import tushar.letgo.tmdb.BuildConfig;
 
 public interface ApiService {
     String URL = BuildConfig.TMDB_API_URL;
+
+    @GET("popular")
+    Call<Response> getPopularTvShows(@Query("api_key") String apiKey,
+                                     @Query("language") String language,
+                                     @Query("page") int pageNumber);
+
+    @GET("{id}/similar")
+    Call<Response> getSimilarTvShows(@Path("id") String tvShowId,
+                                     @Query("api_key") String apiKey,
+                                     @Query("language") String language,
+                                     @Query("page") int pageNumber);
 }

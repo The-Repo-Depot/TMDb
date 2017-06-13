@@ -15,6 +15,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 import tushar.letgo.tmdb.api.ApiService;
 import tushar.letgo.tmdb.dipendency.AppComponent;
 import tushar.letgo.tmdb.dipendency.AppModule;
@@ -41,6 +42,8 @@ public class App extends Application {
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+
+        Timber.plant(new Timber.DebugTree());
     }
 
     public AppComponent getAppComponent() {
