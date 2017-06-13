@@ -1,0 +1,65 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_show_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/item_tv_show_margin">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <tushar.letgo.tmdb.common.view.AspectLockedImageView
+            android:id="@+id/tv_show_item_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/tv_show_poster"
+            android:scaleType="centerCrop"
+            app:imageAspectRatio="@dimen/item_tv_show_aspect_ratio"
+            tools:layout_width="300dp"
+            tools:src="@drawable/img_got_dummy_poster"/>
+
+        <LinearLayout
+            android:id="@+id/tv_show_item_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_show_item_title"
+                    style="@style/TvShowTitleText"
+                    android:lines="1"
+                    android:textColor="@color/title_text_color"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold"
+                    tools:text="Game of Thrones"/>
+
+                <TextView
+                    android:id="@+id/tv_Show_item_rating"
+                    style="@style/TvShowTitleText"
+                    android:textColor="@color/rating_text_color"
+                    android:textSize="@dimen/rating_size_medium"
+                    tools:text="Action"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
