@@ -84,7 +84,7 @@ public class TvShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<TvShow, R
             mItemViewHolder.mContentContainer.setOnClickListener(v -> {
                 if (mOnTvShowClickListener != null) {
                     mOnTvShowClickListener.onTvShowSelected(mItemViewHolder.mContentContainer,
-                            mItemViewHolder.mTvShow);
+                            mItemViewHolder.mTvShow, position);
                 }
             });
         }

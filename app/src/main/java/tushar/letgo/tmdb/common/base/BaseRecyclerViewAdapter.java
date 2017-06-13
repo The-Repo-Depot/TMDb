@@ -32,6 +32,10 @@ public abstract class BaseRecyclerViewAdapter<T, VH extends RecyclerView.ViewHol
         return objects.get(position);
     }
 
+    public List<T> getAllItems() {
+        return objects;
+    }
+
     public void add(T object) {
         synchronized (lock) {
             if (objects == null) {

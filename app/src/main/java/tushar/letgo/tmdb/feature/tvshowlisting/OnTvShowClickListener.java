@@ -9,5 +9,5 @@ import tushar.letgo.tmdb.model.TvShow;
  */
 
 public interface OnTvShowClickListener {
-    void onTvShowSelected(View selectedView, TvShow tvShow);
+    void onTvShowSelected(View selectedView, TvShow tvShow, int position);
 }

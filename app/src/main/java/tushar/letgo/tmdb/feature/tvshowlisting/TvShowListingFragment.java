@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,9 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
 
     public static final String TAG = TvShowListingFragment.class.getName();
 
+    private static final String STATE_TV_SHOWS = "state_shows";
+    private static final String STATE_SELECTED_POSITION = "state_selected_position";
+
     @Bind(R.id.swipe_refresh_layout)
     DaddySwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -56,6 +61,8 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     private EndlessRecyclerOnScrollListener.State state = new EndlessRecyclerOnScrollListener.State();
 
     List<TvShow> tvShows = new ArrayList<>();
+
+    int mSelectedPosition = -1;
 
     @Inject
     TvShowListingPresenter presenter;
@@ -79,8 +86,24 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mTvShowRecyclerViewAdapter != null) {
+            outState.putParcelable(STATE_TV_SHOWS, Parcels.wrap(mTvShowRecyclerViewAdapter.getAllItems()));
+            outState.putInt(STATE_SELECTED_POSITION, mSelectedPosition);
+        }
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (savedInstanceState != null) {
+            tvShows = Parcels.unwrap(savedInstanceState.getParcelable(STATE_TV_SHOWS));
+            mSelectedPosition = savedInstanceState != null
+                    ? savedInstanceState.getInt(STATE_SELECTED_POSITION, -1)
+                    : -1;
+        }
 
         initSwipeRefreshLayout();
         initRecyclerView();
@@ -144,6 +167,9 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
 
         mEndlessRecyclerOnScrollListener.setState(state);
         mTvShowRecyclerView.addOnScrollListener(mEndlessRecyclerOnScrollListener);
+        if (mSelectedPosition != -1) {
+            mTvShowRecyclerView.scrollToPosition(mSelectedPosition);
+        }
     }
 
     @Override
@@ -153,8 +179,8 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     }
 
     @Override
-    public void onTvShowSelected(View selectedView, TvShow tvShow) {
-
+    public void onTvShowSelected(View selectedView, TvShow tvShow, int position) {
+        mSelectedPosition = position;
     }
 
     @Override
