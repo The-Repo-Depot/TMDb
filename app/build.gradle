@@ -14,6 +14,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        buildConfigField 'String', 'TMDB_API_KEY', '"eae426df77219f6528405b00e8508d02"'
         buildConfigField 'String', 'TMDB_API_URL', '"https://api.themoviedb.org/3/tv/"'
         buildConfigField 'String', 'TMDB_IMAGE_URL', '"http://image.tmdb.org/t/p/"'
     }
@@ -58,8 +59,8 @@ dependencies {
     provided 'com.f2prateek.dart:dart-processor:2.0.1'
 
     compile 'com.github.florent37:glidepalette:1.0.2@aar'
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.github.bumptech.glide:okhttp-integration:1.3.1'
+    compile 'com.github.bumptech.glide:glide:3.8.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.5.0'
 
     //retrofit https://github.com/square/retrofit
     compile 'com.squareup.retrofit2:retrofit:2.0.2'

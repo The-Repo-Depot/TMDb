@@ -47,7 +47,7 @@ public class TvShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<TvShow, R
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        RecyclerView.ViewHolder viewHolder = null;
+        RecyclerView.ViewHolder viewHolder;
         if (viewType == VIEW_TYPE_ITEM) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tv_show, parent, false);
             viewHolder = new ItemTvShowViewHolder(view);
@@ -66,7 +66,7 @@ public class TvShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<TvShow, R
 
             mItemViewHolder.mTvShow = tvShow;
             mItemViewHolder.mTitleView.setText(tvShow.getTitle());
-            mItemViewHolder.mRatingView.setText(tvShow.getTitle());
+            mItemViewHolder.mRatingView.setText(String.valueOf(tvShow.getVoteAverage()));
 
             if (mItemViewHolder.mTvShowId != tvShow.getId()) {
                 resetColors(mItemViewHolder);
@@ -90,7 +90,7 @@ public class TvShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<TvShow, R
         }
     }
 
-    private class ItemTvShowViewHolder extends RecyclerView.ViewHolder {
+    public class ItemTvShowViewHolder extends RecyclerView.ViewHolder {
         public final View view;
 
         @Bind(R.id.tv_show_item_container)

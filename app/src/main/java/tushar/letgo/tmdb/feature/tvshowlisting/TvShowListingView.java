@@ -14,11 +14,11 @@ public interface TvShowListingView {
 
     void hideProgress();
 
-    void showAdsLoadingProgress();
+    void showTvShowsLoadingProgress();
 
-    void hideAdsLoadingProgress();
+    void hideTvShowsLoadingProgress();
 
-    void showAds(List<TvShow> tvShows);
+    void showTvShows(List<TvShow> tvShows);
 
     void hideErrors();
 

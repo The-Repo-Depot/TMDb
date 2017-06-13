@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import com.f2prateek.dart.Dart;
 
 import butterknife.ButterKnife;
+import tushar.letgo.tmdb.common.App;
 
 public abstract class BaseFragment extends Fragment {
+
+    protected App app;
 
     @LayoutRes
     protected abstract int getLayoutResourceId();
@@ -20,6 +23,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        app = App.get(getActivity());
 
         Dart.inject(this, getArguments());
     }
