@@ -114,6 +114,7 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
         mEndlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(mTvShowRecyclerView) {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
+                getPresenter().loadMore();
                 return true;
             }
 
