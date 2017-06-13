@@ -80,6 +80,13 @@ public class TvShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<TvShow, R
                     .listener(GlidePalette.with(tvShow.getPosterPath())
                             .intoCallBack(palette -> applyColors(mItemViewHolder, palette.getVibrantSwatch())))
                     .into(mItemViewHolder.mImageView);
+
+            mItemViewHolder.mContentContainer.setOnClickListener(v -> {
+                if (mOnTvShowClickListener != null) {
+                    mOnTvShowClickListener.onTvShowSelected(mItemViewHolder.mContentContainer,
+                            mItemViewHolder.mTvShow);
+                }
+            });
         }
     }
 
