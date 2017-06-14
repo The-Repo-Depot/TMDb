@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="tushar.letgo.tmdb">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".common.App"
@@ -19,9 +19,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".feature.tvshowdetails.TvShowDetailActivity"
+            android:theme="@style/FullScreenAppTheme"/>
+
         <meta-data
             android:name="tushar.letgo.tmdb.common.GlideSetting"
-            android:value="GlideModule" />
+            android:value="GlideModule"/>
 
     </application>
 

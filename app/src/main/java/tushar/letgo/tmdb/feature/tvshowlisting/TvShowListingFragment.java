@@ -1,5 +1,7 @@
 package tushar.letgo.tmdb.feature.tvshowlisting;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +26,7 @@ import tushar.letgo.tmdb.common.mvp.BasePresenterFragment;
 import tushar.letgo.tmdb.common.view.DaddySwipeRefreshLayout;
 import tushar.letgo.tmdb.common.view.EndlessRecyclerOnScrollListener;
 import tushar.letgo.tmdb.dipendency.feature.tvshowlisting.TvShowListingModule;
+import tushar.letgo.tmdb.feature.tvshowdetails.TvShowDetailActivity;
 import tushar.letgo.tmdb.model.TvShow;
 
 /**
@@ -178,9 +181,11 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
         mSwipeRefreshLayout.setRefreshing(true);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onTvShowSelected(View selectedView, TvShow tvShow, int position) {
         mSelectedPosition = position;
+        TvShowDetailActivity.open(getActivity(), selectedView, tvShow);
     }
 
     @Override

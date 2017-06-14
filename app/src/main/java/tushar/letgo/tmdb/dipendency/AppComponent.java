@@ -4,6 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import tushar.letgo.tmdb.common.GlideSetting;
+import tushar.letgo.tmdb.dipendency.feature.tvshowdetails.TvShowDetailComponent;
+import tushar.letgo.tmdb.dipendency.feature.tvshowdetails.TvShowDetailModule;
 import tushar.letgo.tmdb.dipendency.feature.tvshowlisting.TvShowListingComponent;
 import tushar.letgo.tmdb.dipendency.feature.tvshowlisting.TvShowListingModule;
 
@@ -17,4 +19,6 @@ public interface AppComponent {
     void inject(GlideSetting glideSetting);
 
     TvShowListingComponent plus(TvShowListingModule homeModule);
+
+    TvShowDetailComponent plus(TvShowDetailModule homeModule);
 }
