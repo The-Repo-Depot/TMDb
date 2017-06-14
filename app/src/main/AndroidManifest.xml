@@ -21,7 +21,7 @@
 
         <activity
             android:name=".feature.tvshowdetails.TvShowDetailActivity"
-            android:theme="@style/FullScreenAppTheme"/>
+            android:theme="@style/Theme.Transparent"/>
 
         <meta-data
             android:name="tushar.letgo.tmdb.common.GlideSetting"
