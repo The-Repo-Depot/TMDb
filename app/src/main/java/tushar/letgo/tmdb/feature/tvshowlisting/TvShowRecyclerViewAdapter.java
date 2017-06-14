@@ -61,32 +61,7 @@ public class TvShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<TvShow, R
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemTvShowViewHolder) {
-            final ItemTvShowViewHolder mItemViewHolder = (ItemTvShowViewHolder) holder;
-            final TvShow tvShow = getItem(position);
-
-            mItemViewHolder.mTvShow = tvShow;
-            mItemViewHolder.mTitleView.setText(tvShow.getTitle());
-            mItemViewHolder.mRatingView.setText(String.valueOf(tvShow.getVoteAverage()));
-
-            if (mItemViewHolder.mTvShowId != tvShow.getId()) {
-                resetColors(mItemViewHolder);
-                mItemViewHolder.mTvShowId = tvShow.getId();
-            }
-
-            Glide.with(mContext)
-                    .load(tvShow.getPosterPath())
-                    .crossFade()
-                    .placeholder(R.color.tv_show_poster_placeholder)
-                    .listener(GlidePalette.with(tvShow.getPosterPath())
-                            .intoCallBack(palette -> applyColors(mItemViewHolder, palette.getVibrantSwatch())))
-                    .into(mItemViewHolder.mImageView);
-
-            mItemViewHolder.mContentContainer.setOnClickListener(v -> {
-                if (mOnTvShowClickListener != null) {
-                    mOnTvShowClickListener.onTvShowSelected(mItemViewHolder.mContentContainer,
-                            mItemViewHolder.mTvShow, position);
-                }
-            });
+            ((ItemTvShowViewHolder) holder).bind(position);
         }
     }
 
@@ -127,25 +102,51 @@ public class TvShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<TvShow, R
 
             ButterKnife.bind(this, view);
         }
+
+        public void bind(final int position) {
+            mTvShow = objects.get(position);
+            mTitleView.setText(mTvShow.getTitle());
+            mRatingView.setText(String.valueOf(mTvShow.getVoteAverage()));
+
+            if (mTvShowId != mTvShow.getId()) {
+                resetColors();
+                mTvShowId = mTvShow.getId();
+            }
+
+            Glide.with(mContext)
+                    .load(mTvShow.getPosterPath())
+                    .crossFade()
+                    .placeholder(R.color.tv_show_poster_placeholder)
+                    .listener(GlidePalette.with(mTvShow.getPosterPath())
+                            .intoCallBack(palette -> applyColors(palette.getVibrantSwatch())))
+                    .into(mImageView);
+
+            mContentContainer.setOnClickListener(v -> {
+                if (mOnTvShowClickListener != null) {
+                    mOnTvShowClickListener.onTvShowSelected(mContentContainer,
+                            mTvShow, position);
+                }
+            });
+        }
+
+        private void resetColors() {
+            mFooterView.setBackgroundColor(mColorBackground);
+            mTitleView.setTextColor(mColorTitle);
+            mRatingView.setTextColor(mColorRating);
+        }
+
+        private void applyColors(Palette.Swatch swatch) {
+            if (swatch != null) {
+                mFooterView.setBackgroundColor(swatch.getRgb());
+                mTitleView.setTextColor(swatch.getBodyTextColor());
+                mRatingView.setTextColor(swatch.getTitleTextColor());
+            }
+        }
     }
 
     private class ProgressViewHolder extends RecyclerView.ViewHolder {
         public ProgressViewHolder(View view) {
             super(view);
-        }
-    }
-
-    private void resetColors(ItemTvShowViewHolder mItemViewHolder) {
-        mItemViewHolder.mFooterView.setBackgroundColor(mItemViewHolder.mColorBackground);
-        mItemViewHolder.mTitleView.setTextColor(mItemViewHolder.mColorTitle);
-        mItemViewHolder.mRatingView.setTextColor(mItemViewHolder.mColorRating);
-    }
-
-    private void applyColors(ItemTvShowViewHolder mItemViewHolder, Palette.Swatch swatch) {
-        if (swatch != null) {
-            mItemViewHolder.mFooterView.setBackgroundColor(swatch.getRgb());
-            mItemViewHolder.mTitleView.setTextColor(swatch.getBodyTextColor());
-            mItemViewHolder.mRatingView.setTextColor(swatch.getTitleTextColor());
         }
     }
 }
