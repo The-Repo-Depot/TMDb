@@ -185,7 +185,7 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     @Override
     public void onTvShowSelected(View selectedView, TvShow tvShow, int position) {
         mSelectedPosition = position;
-        TvShowDetailActivity.open(getActivity(), selectedView, tvShow);
+        TvShowDetailActivity.open(getActivity(), tvShow);
     }
 
     @Override
