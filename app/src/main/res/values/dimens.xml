@@ -5,6 +5,7 @@
     <dimen name="standard_margin">10dp</dimen>
     <dimen name="title_text_size">18sp</dimen>
     <dimen name="rating_size_medium">14sp</dimen>
+    <dimen name="overview_text_size">16sp</dimen>
     <item name="item_tv_show_aspect_ratio" format="float" type="dimen">.675</item>
     <item name="tv_show_details_aspect_ratio" format="float" type="dimen">1.77</item>
 </resources>

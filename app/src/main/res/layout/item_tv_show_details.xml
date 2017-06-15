@@ -1,19 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<tushar.letgo.tmdb.feature.tvshowdetails.ScaleResponsibleSlideLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <tushar.letgo.tmdb.common.view.AspectLockedImageView
-        android:id="@+id/show_cover"
+    <LinearLayout
+        android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        app:imageAspectRatio="@dimen/tv_show_details_aspect_ratio"
-        tools:src="@drawable/img_dummy_backport_police_box"/>
+        android:background="@drawable/bg_rounded_tv_show_details"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <tushar.letgo.tmdb.common.view.AspectLockedImageView
+            android:id="@+id/img_tv_show_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            app:imageAspectRatio="@dimen/tv_show_details_aspect_ratio"
+            tools:src="@drawable/img_dummy_backport_police_box"/>
+
+        <LinearLayout
+            android:id="@+id/layout_detail_item_highlight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/standard_margin"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_show_detail_title"
+                    style="@style/TvShowTitleText"
+                    android:layout_marginBottom="5dp"
+                    android:lines="1"
+                    tools:text="Game of Thrones"
+                    android:textColor="@color/title_text_color"
+                    android:textSize="@dimen/title_text_size"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_show_detail_rating"
+                        style="@style/TvShowTitleText"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/bg_rating"
+                        android:drawableLeft="@drawable/ic_star"
+                        android:drawablePadding="2dp"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="1dp"
+                        android:paddingLeft="3dp"
+                        android:paddingRight="3dp"
+                        android:paddingTop="1dp"
+                        tools:text="8.9"
+                        android:textColor="@color/rating_text_color"
+                        android:textSize="@dimen/rating_size_medium"/>
+
+                    <TextView
+                        android:id="@+id/tv_show_detail_air_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/dot"
+                        android:textColor="@color/rating_text_color"
+                        android:textSize="@dimen/rating_size_medium"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/tv_show_detail_overview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:textColor="@color/brownish_grey"
+                android:textSize="@dimen/overview_text_size"
+                tools:text="@string/lorem_ipsum"/>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+
+</tushar.letgo.tmdb.feature.tvshowdetails.ScaleResponsibleSlideLayout>

@@ -1,8 +1,8 @@
 package tushar.letgo.tmdb.feature.tvshowdetails;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -43,6 +43,8 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
 
     List<TvShow> tvShows = new ArrayList<>();
 
+    ScaleResponsiblePagerAdapter scaleResponsiblePagerAdapter;
+
     public static TvShowDetailFragment newInstance(TvShow tvShow) {
         Bundle arguments = new Bundle();
         arguments.putParcelable("tvShow", Parcels.wrap(tvShow));
@@ -67,17 +69,6 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        initViewPager();
-    }
-
-    private void initViewPager() {
-        tvShowViewPager.setAdapter(new TvShowDetailPagerAdapter(getContext(), tvShows));
-    }
-
-    @Override
     public void showProgress() {
         tvShowViewPager.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
@@ -98,7 +89,19 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     public void showSimilarShows(List<TvShow> tvShows) {
         this.tvShows.add(tvShow);
         this.tvShows.addAll(tvShows);
-        tvShowViewPager.getAdapter().notifyDataSetChanged();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scaleResponsiblePagerAdapter = new ScaleResponsiblePagerAdapter(getActivity(), tvShows,
+                        getActivity().getSupportFragmentManager());
+                int pageMargin = ((Resources.getSystem().getDisplayMetrics().widthPixels / 10) * 2);
+                tvShowViewPager.setPageMargin(-pageMargin);
+                tvShowViewPager.setAdapter(scaleResponsiblePagerAdapter);
+                tvShowViewPager.getAdapter().notifyDataSetChanged();
+                tvShowViewPager.addOnPageChangeListener(scaleResponsiblePagerAdapter);
+//                tvShowViewPager.setOffscreenPageLimit(tvShows.size());
+            }
+        });
     }
 
     @Override

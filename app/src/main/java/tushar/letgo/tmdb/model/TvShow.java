@@ -34,6 +34,10 @@ public class TvShow {
     @SerializedName("vote_average")
     double voteAverage;
 
+    @Expose
+    @SerializedName("first_air_date")
+    String firstAirDate;
+
     public TvShow() {
     }
 
@@ -59,5 +63,9 @@ public class TvShow {
 
     public double getVoteAverage() {
         return voteAverage;
+    }
+
+    public String getFirstAirDate() {
+        return firstAirDate;
     }
 }

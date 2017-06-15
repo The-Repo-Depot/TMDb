@@ -12,4 +12,7 @@
     <color name="title_text_color">#FFFFFF</color>
     <color name="rating_text_color">#deffffff</color>
     <color name="tv_show_poster_placeholder">#ff388e3c</color>
+    <color name="warm_gray">#c4c4c4</color>
+    <color name="squash">#f5a812</color>
+    <color name="brownish_grey">#5f5f5f</color>
 </resources>
