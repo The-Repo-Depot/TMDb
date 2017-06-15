@@ -23,8 +23,7 @@
             android:layout_alignParentTop="true"
             android:background="@color/colorPrimaryDark"
             android:contentDescription="@null"
-            android:scaleType="centerCrop"
-            app:imageAspectRatio="@dimen/tv_show_details_aspect_ratio"
+            android:scaleType="center"
             tools:src="@drawable/img_dummy_backport_police_box"/>
 
         <LinearLayout

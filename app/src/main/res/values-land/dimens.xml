@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="tv_show_details_aspect_ratio" format="float" type="dimen">1.77</item>
+    <item name="tv_show_details_aspect_ratio" format="float" type="dimen">2.00</item>
 </resources>
