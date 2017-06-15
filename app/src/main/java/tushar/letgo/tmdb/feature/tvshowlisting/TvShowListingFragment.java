@@ -204,18 +204,25 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
 
     @Override
     public void showTvShowsLoadingProgress() {
-        mTvShowRecyclerViewAdapter.add(ProgressTvShow.INSTANCE);
+        mTvShowRecyclerView.post(new Runnable() {
+            public void run() {
+                mTvShowRecyclerViewAdapter.add(ProgressTvShow.INSTANCE);
+            }
+        });
     }
 
     @Override
     public void hideTvShowsLoadingProgress() {
-        mTvShowRecyclerViewAdapter.remove(ProgressTvShow.INSTANCE);
+        mTvShowRecyclerView.post(new Runnable() {
+            public void run() {
+                mTvShowRecyclerViewAdapter.remove(ProgressTvShow.INSTANCE);
+            }
+        });
     }
 
     @Override
     public void showTvShows(List<TvShow> tvShows) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
+        mTvShowRecyclerView.post(new Runnable() {
             public void run() {
                 mTvShowRecyclerViewAdapter.addAll(tvShows);
             }
