@@ -37,11 +37,17 @@ public class TvShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<TvShow, R
 
         this.mContext = context;
         this.mOnTvShowClickListener = listener;
+        setHasStableIds(true);
     }
 
     @Override
     public int getItemViewType(int position) {
         return objects.get(position).equals(ProgressTvShow.INSTANCE) ? VIEW_TYPE_PROGRESS : VIEW_TYPE_ITEM;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return objects.get(position).equals(ProgressTvShow.INSTANCE) ? -1 : objects.get(position).getId();
     }
 
     @Override
