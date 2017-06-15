@@ -15,7 +15,7 @@ interface TvShowDetailView {
 
     void hideProgress();
 
-    void showSimilarShows(List<TvShow> tvShowList);
+    void showSimilarShows(List<TvShow> similarTvShows);
 
     long getUserSelectedTvShowId();
 }

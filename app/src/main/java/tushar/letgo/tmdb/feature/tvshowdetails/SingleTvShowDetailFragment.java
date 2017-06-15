@@ -33,7 +33,7 @@ public class SingleTvShowDetailFragment extends BaseFragment {
     private int screenWidth;
     private int screenHeight;
 
-    @InjectExtra("tvShow")
+    @InjectExtra("selectedTvShow")
     TvShow tvShow;
 
     @Bind(R.id.root_container)
@@ -64,7 +64,7 @@ public class SingleTvShowDetailFragment extends BaseFragment {
         Bundle arguments = new Bundle();
         arguments.putInt(POSITION, pos);
         arguments.putFloat(SCALE, scale);
-        arguments.putParcelable("tvShow", Parcels.wrap(tvShow));
+        arguments.putParcelable("selectedTvShow", Parcels.wrap(tvShow));
         SingleTvShowDetailFragment fragment = new SingleTvShowDetailFragment();
         fragment.setArguments(arguments);
         return fragment;

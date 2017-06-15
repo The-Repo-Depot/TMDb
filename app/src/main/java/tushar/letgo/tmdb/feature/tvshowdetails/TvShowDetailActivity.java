@@ -18,12 +18,12 @@ import tushar.letgo.tmdb.model.TvShow;
 
 public class TvShowDetailActivity extends PresenterActivity {
 
-    @InjectExtra("tvShow")
+    @InjectExtra("selectedTvShow")
     TvShow tvShow;
 
     public static void open(Activity activity, TvShow tvShow) {
         Intent startIntent = new Intent(activity, TvShowDetailActivity.class);
-        startIntent.putExtra("tvShow", Parcels.wrap(tvShow));
+        startIntent.putExtra("selectedTvShow", Parcels.wrap(tvShow));
         activity.startActivity(startIntent);
     }
 

@@ -29,8 +29,8 @@ import tushar.letgo.tmdb.model.TvShow;
 public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView, TvShowDetailPresenter> implements TvShowDetailView {
     public static final String TAG = TvShowDetailFragment.class.getName();
 
-    @InjectExtra("tvShow")
-    TvShow tvShow;
+    @InjectExtra("selectedTvShow")
+    TvShow selectedTvShow;
 
     @Inject
     TvShowDetailPresenter presenter;
@@ -47,7 +47,7 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
 
     public static TvShowDetailFragment newInstance(TvShow tvShow) {
         Bundle arguments = new Bundle();
-        arguments.putParcelable("tvShow", Parcels.wrap(tvShow));
+        arguments.putParcelable("selectedTvShow", Parcels.wrap(tvShow));
 
         TvShowDetailFragment tvShowDetailFragment = new TvShowDetailFragment();
         tvShowDetailFragment.setArguments(arguments);
@@ -86,26 +86,22 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     }
 
     @Override
-    public void showSimilarShows(List<TvShow> tvShows) {
-        this.tvShows.add(tvShow);
-        this.tvShows.addAll(tvShows);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                scaleResponsiblePagerAdapter = new ScaleResponsiblePagerAdapter(getActivity(), tvShows,
-                        getActivity().getSupportFragmentManager());
-                int pageMargin = ((Resources.getSystem().getDisplayMetrics().widthPixels / 10) * 2);
-                tvShowViewPager.setPageMargin(-pageMargin);
-                tvShowViewPager.setAdapter(scaleResponsiblePagerAdapter);
-                tvShowViewPager.getAdapter().notifyDataSetChanged();
-                tvShowViewPager.addOnPageChangeListener(scaleResponsiblePagerAdapter);
+    public void showSimilarShows(List<TvShow> similarTvShows) {
+        tvShows.add(selectedTvShow);
+        tvShows.addAll(similarTvShows);
+        getActivity().runOnUiThread(() -> {
+            scaleResponsiblePagerAdapter = new ScaleResponsiblePagerAdapter(getActivity(),
+                    tvShows, getActivity().getSupportFragmentManager());
+            int pageMargin = ((Resources.getSystem().getDisplayMetrics().widthPixels / 10) * 2);
+            tvShowViewPager.setPageMargin(-pageMargin);
+            tvShowViewPager.setAdapter(scaleResponsiblePagerAdapter);
+            tvShowViewPager.addOnPageChangeListener(scaleResponsiblePagerAdapter);
 //                tvShowViewPager.setOffscreenPageLimit(tvShows.size());
-            }
         });
     }
 
     @Override
     public long getUserSelectedTvShowId() {
-        return tvShow.getId();
+        return selectedTvShow.getId();
     }
 }

@@ -21,6 +21,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import timber.log.Timber;
 import tushar.letgo.tmdb.R;
 import tushar.letgo.tmdb.common.mvp.BasePresenterFragment;
 import tushar.letgo.tmdb.common.view.DaddySwipeRefreshLayout;
@@ -184,6 +185,7 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onTvShowSelected(View selectedView, TvShow tvShow, int position) {
+        Timber.d(tvShow.getTitle() + " " + tvShow.getId());
         mSelectedPosition = position;
         TvShowDetailActivity.open(getActivity(), tvShow);
     }
