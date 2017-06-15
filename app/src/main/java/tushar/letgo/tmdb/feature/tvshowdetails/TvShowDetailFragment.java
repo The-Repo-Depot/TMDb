@@ -32,6 +32,7 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     public static final String TAG = TvShowDetailFragment.class.getName();
 
     private static final String STATE_SELECTED_TV_SHOW = "selected_tv_show";
+    private static final String STATE_LOADING = "state_loading";
     private static final String STATE_TV_SHOWS = "state_shows";
     private static final String STATE_SELECTED_POSITION = "state_selected_position";
 
@@ -52,6 +53,8 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     private ScaleResponsiblePagerAdapter scaleResponsiblePagerAdapter;
 
     private int mSelectedPosition = -1;
+
+    private boolean isLoading;
 
     public static TvShowDetailFragment newInstance(TvShow tvShow) {
         Bundle arguments = new Bundle();
@@ -79,21 +82,18 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (tvShows.size() > 0) {
-            outState.putParcelable(STATE_TV_SHOWS, Parcels.wrap(tvShows));
-            Timber.tag("save instance state").d("tv show size %d", tvShows.size());
-        }
-        if (scaleResponsiblePagerAdapter != null && scaleResponsiblePagerAdapter.getCount() > 0) {
-            outState.putInt(STATE_SELECTED_POSITION, tvShowViewPager.getCurrentItem());
-            Timber.tag("save instance state").d("current position %d", tvShowViewPager.getCurrentItem());
-        }
+        outState.putBoolean(STATE_LOADING, isLoading);
+        outState.putParcelable(STATE_TV_SHOWS, Parcels.wrap(tvShows));
+        outState.putInt(STATE_SELECTED_POSITION, tvShowViewPager.getCurrentItem());
+        Timber.tag("save instance state").d("tv show size %d", tvShows.size());
+        Timber.tag("save instance state").d("current position %d", tvShowViewPager.getCurrentItem());
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && !savedInstanceState.getBoolean(STATE_LOADING)) {
             tvShows = Parcels.unwrap(savedInstanceState.getParcelable(STATE_TV_SHOWS));
             mSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION, -1);
             Timber.tag("on retain").d("tv show size %d, current position %d", tvShows.size(), tvShowViewPager.getCurrentItem());
@@ -121,6 +121,7 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
 
     @Override
     public void showProgress() {
+        isLoading = true;
         tvShowViewPager.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -132,6 +133,7 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
 
     @Override
     public void hideProgress() {
+        isLoading = false;
         tvShowViewPager.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
