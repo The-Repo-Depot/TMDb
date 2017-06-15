@@ -1,13 +1,11 @@
 package tushar.letgo.tmdb.feature.tvshowdetails;
 
-import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +18,7 @@ import com.github.florent37.glidepalette.GlidePalette;
 import org.parceler.Parcels;
 
 import butterknife.Bind;
+import timber.log.Timber;
 import tushar.letgo.tmdb.R;
 import tushar.letgo.tmdb.common.base.BaseFragment;
 import tushar.letgo.tmdb.model.TvShow;
@@ -27,13 +26,16 @@ import tushar.letgo.tmdb.utility.DateConverter;
 
 public class SingleTvShowDetailFragment extends BaseFragment {
 
+    private static final String STATE_TV_SHOW = "tv_Show";
     private static final String POSITION = "position";
     private static final String SCALE = "scale";
 
     private int screenWidth;
     private int screenHeight;
+    private int position;
+    private float scale;
 
-    @InjectExtra("selectedTvShow")
+    @InjectExtra(STATE_TV_SHOW)
     TvShow tvShow;
 
     @Bind(R.id.root_container)
@@ -64,7 +66,7 @@ public class SingleTvShowDetailFragment extends BaseFragment {
         Bundle arguments = new Bundle();
         arguments.putInt(POSITION, pos);
         arguments.putFloat(SCALE, scale);
-        arguments.putParcelable("selectedTvShow", Parcels.wrap(tvShow));
+        arguments.putParcelable(STATE_TV_SHOW, Parcels.wrap(tvShow));
         SingleTvShowDetailFragment fragment = new SingleTvShowDetailFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -82,14 +84,33 @@ public class SingleTvShowDetailFragment extends BaseFragment {
         screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (tvShow != null) {
+            outState.putParcelable(STATE_TV_SHOW, Parcels.wrap(tvShow));
+            outState.putInt(POSITION, position);
+            outState.putFloat(SCALE, scale);
+        }
+    }
 
-//        final int position = this.getArguments().getInt(POSITION);
-        float scale = this.getArguments().getFloat(SCALE);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        position = this.getArguments().getInt(POSITION);
+        scale = this.getArguments().getFloat(SCALE);
+
+        if (savedInstanceState != null) {
+            tvShow = Parcels.unwrap(savedInstanceState.getParcelable(STATE_TV_SHOW));
+            Timber.tag("on retain").d("single tv show position %d", position);
+        }
+
+        setContent();
+    }
+
+    private void setContent() {
+        Timber.tag("on single tv show").d("single tv show position %d", position);
         int pageMargin = ((Resources.getSystem().getDisplayMetrics().widthPixels / 10) * 2);
         int pageMargin1 = ((Resources.getSystem().getDisplayMetrics().heightPixels / 8) * 2);
 
@@ -115,6 +136,5 @@ public class SingleTvShowDetailFragment extends BaseFragment {
         tvShowDetailOverview.setText(tvShow.getOverview());
 
         rootContainer.setScale(scale);
-        return rootContainer;
     }
 }

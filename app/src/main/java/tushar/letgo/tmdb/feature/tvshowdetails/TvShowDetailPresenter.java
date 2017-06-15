@@ -42,8 +42,8 @@ public class TvShowDetailPresenter extends BasePresenter<TvShowDetailView> {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                 if (view != null) {
-                    view.hideProgress();
                     view.showSimilarShows(response.body().tvShows);
+                    view.hideProgress();
                 }
             }
 
