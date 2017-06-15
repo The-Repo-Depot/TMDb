@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,7 +43,7 @@ public class SingleTvShowDetailFragment extends BaseFragment {
     ScaleResponsibleSlideLayout rootContainer;
 
     @Bind(R.id.layout_content)
-    LinearLayout contentLayout;
+    RelativeLayout contentLayout;
 
     @Bind(R.id.img_tv_show_cover)
     ImageView mCoverImage;
@@ -59,6 +60,7 @@ public class SingleTvShowDetailFragment extends BaseFragment {
     @Bind(R.id.tv_show_detail_air_time)
     TextView tvShowDetailAirTime;
 
+    @Nullable
     @Bind(R.id.tv_show_detail_overview)
     TextView tvShowDetailOverview;
 
@@ -111,12 +113,13 @@ public class SingleTvShowDetailFragment extends BaseFragment {
 
     private void setContent() {
         Timber.tag("on single tv show").d("single tv show position %d", position);
-        int pageMargin = ((Resources.getSystem().getDisplayMetrics().widthPixels / 10) * 2);
-        int pageMargin1 = ((Resources.getSystem().getDisplayMetrics().heightPixels / 8) * 2);
 
-        LinearLayout.LayoutParams layoutParams =
-                new LinearLayout.LayoutParams(screenWidth - pageMargin, screenHeight - pageMargin1);
-        contentLayout.setLayoutParams(layoutParams);
+        int marginWidth = ((Resources.getSystem().getDisplayMetrics().widthPixels / 10) * 2);
+        int marginHeight = ((Resources.getSystem().getDisplayMetrics().heightPixels / 8) * 2);
+
+        contentLayout.getLayoutParams().width = screenWidth - marginWidth;
+        contentLayout.getLayoutParams().height = screenHeight - marginHeight;
+        contentLayout.requestLayout();
 
         Glide.with(getActivity()).load(tvShow.getBackdropPath())
                 .placeholder(R.color.tv_show_poster_placeholder)
@@ -133,7 +136,10 @@ public class SingleTvShowDetailFragment extends BaseFragment {
         tvShowDetailRating.setText(String.valueOf(tvShow.getVoteAverage()));
         tvShowDetailAirTime.setText(getString(R.string.dot) + " " +
                 DateConverter.getDisplayReleaseTime(tvShow.getFirstAirDate()));
-        tvShowDetailOverview.setText(tvShow.getOverview());
+
+        if (tvShowDetailOverview != null) {
+            tvShowDetailOverview.setText(tvShow.getOverview());
+        }
 
         rootContainer.setScale(scale);
     }

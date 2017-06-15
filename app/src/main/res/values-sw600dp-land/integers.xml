@@ -16,5 +16,5 @@
   -->
 
 <resources>
-    <integer name="tv_show_columns">2</integer>
+    <integer name="tv_show_columns">3</integer>
 </resources>

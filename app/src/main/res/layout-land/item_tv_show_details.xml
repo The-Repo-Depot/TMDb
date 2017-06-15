@@ -13,13 +13,14 @@
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_rounded_tv_show_details"
-        android:orientation="vertical">
+        android:background="@drawable/bg_rounded_tv_show_details">
 
         <tushar.letgo.tmdb.common.view.AspectLockedImageView
             android:id="@+id/img_tv_show_cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/layout_detail_item_highlight"
+            android:layout_alignParentTop="true"
             android:background="@color/colorPrimaryDark"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
@@ -30,7 +31,7 @@
             android:id="@+id/layout_detail_item_highlight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/img_tv_show_cover"
+            android:layout_alignParentBottom="true"
             android:background="@color/colorPrimary"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -38,10 +39,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/standard_margin"
+                android:layout_marginBottom="@dimen/standard_margin_half"
                 android:layout_marginLeft="@dimen/standard_margin"
                 android:layout_marginStart="@dimen/standard_margin"
-                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin_half"
                 android:orientation="vertical">
 
                 <TextView
@@ -89,24 +90,6 @@
 
         </LinearLayout>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/layout_detail_item_highlight"
-            android:paddingBottom="16dp">
-
-            <TextView
-                android:id="@+id/tv_show_detail_overview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
-                android:textColor="@color/brownish_grey"
-                android:textSize="@dimen/overview_text_size"
-                tools:text="@string/lorem_ipsum"/>
-
-        </ScrollView>
-
     </RelativeLayout>
-
 
 </tushar.letgo.tmdb.feature.tvshowdetails.ScaleResponsibleSlideLayout>
