@@ -49,8 +49,7 @@ public class GlideSetting implements GlideModule {
 
         @Override
         protected String getUrl(String imagePath, int width, int height) {
-            String url = ImageService.buildPosterUrl(imagePath, width);
-            return url;
+            return ImageService.buildPosterUrl(imagePath, width);
         }
 
         public static class Factory implements ModelLoaderFactory<String, InputStream> {

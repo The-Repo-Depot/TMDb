@@ -1,9 +1,8 @@
 package tushar.letgo.tmdb.api;
 
-import android.util.Log;
-
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
+import timber.log.Timber;
 
 /**
  * Created by Tushar on 6/16/17.
@@ -26,7 +25,7 @@ public abstract class NetworkCallback<M> extends Subscriber<M> {
             HttpException httpException = (HttpException) e;
             int code = httpException.code();
             String message = httpException.getMessage();
-            Log.i(TAG, "code : " + code);
+//            Timber.tag(TAG).d("code : " + code);
             onFailure(message);
         } else {
             onFailure(e.getMessage());

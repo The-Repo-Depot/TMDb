@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="40dp"
-        android:orientation="vertical"
         android:clickable="true"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <ImageView
