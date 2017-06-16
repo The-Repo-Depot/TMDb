@@ -170,12 +170,17 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
 
             @Override
             public void enableRefresh() {
-                mSwipeRefreshLayout.setEnabled(true);
+                if (!mSwipeRefreshLayout.isEnabled()) {
+                    mSwipeRefreshLayout.setEnabled(true);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
 
             @Override
             public void disableRefresh() {
-                mSwipeRefreshLayout.setEnabled(false);
+                if (mSwipeRefreshLayout.isEnabled()) {
+                    mSwipeRefreshLayout.setEnabled(false);
+                }
             }
 
             @Override
@@ -194,7 +199,6 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     @Override
     public void onRefresh() {
         getPresenter().reload();
-        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
