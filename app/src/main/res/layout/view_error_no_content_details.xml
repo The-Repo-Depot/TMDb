@@ -19,7 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/ic_error"/>
+            app:srcCompat="@drawable/ic_error_white"/>
 
         <TextView
             android:layout_width="wrap_content"

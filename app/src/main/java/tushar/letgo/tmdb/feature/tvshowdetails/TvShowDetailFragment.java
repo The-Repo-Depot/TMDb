@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.f2prateek.dart.InjectExtra;
@@ -18,6 +19,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import timber.log.Timber;
 import tushar.letgo.tmdb.R;
 import tushar.letgo.tmdb.common.mvp.BasePresenterFragment;
@@ -33,6 +35,7 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
 
     private static final String STATE_SELECTED_TV_SHOW = "selected_tv_show";
     private static final String STATE_LOADING = "state_loading";
+    private static final String STATE_ERROR = "state_error";
     private static final String STATE_TV_SHOWS = "state_shows";
     private static final String STATE_SELECTED_POSITION = "state_selected_position";
 
@@ -48,6 +51,9 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     @Bind(R.id.tv_show_view_pager)
     ViewPager tvShowViewPager;
 
+    @Bind(R.id.layout_error)
+    LinearLayout errorLayout;
+
     private List<TvShow> tvShows = new ArrayList<>();
 
     private ScaleResponsiblePagerAdapter scaleResponsiblePagerAdapter;
@@ -55,6 +61,8 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     private int mSelectedPosition = -1;
 
     private boolean isLoading;
+
+    private boolean isError;
 
     public static TvShowDetailFragment newInstance(TvShow tvShow) {
         Bundle arguments = new Bundle();
@@ -84,6 +92,7 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
         super.onSaveInstanceState(outState);
         outState.putBoolean(STATE_LOADING, isLoading);
         outState.putParcelable(STATE_TV_SHOWS, Parcels.wrap(tvShows));
+        outState.putBoolean(STATE_ERROR, isError);
         outState.putInt(STATE_SELECTED_POSITION, tvShowViewPager.getCurrentItem());
         Timber.tag("save instance state").d("tv show size %d", tvShows.size());
         Timber.tag("save instance state").d("current position %d", tvShowViewPager.getCurrentItem());
@@ -93,11 +102,18 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (savedInstanceState != null && !savedInstanceState.getBoolean(STATE_LOADING)) {
-            tvShows = Parcels.unwrap(savedInstanceState.getParcelable(STATE_TV_SHOWS));
-            mSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION, -1);
-            Timber.tag("on retain").d("tv show size %d, current position %d", tvShows.size(), tvShowViewPager.getCurrentItem());
-            progressBar.setVisibility(View.GONE);
+        if (savedInstanceState != null) {
+            if (!savedInstanceState.getBoolean(STATE_LOADING)
+                    && !savedInstanceState.getBoolean(STATE_ERROR)) {
+                tvShows = Parcels.unwrap(savedInstanceState.getParcelable(STATE_TV_SHOWS));
+                mSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION, -1);
+                Timber.tag("on retain").d("tv show size %d, current position %d", tvShows.size(), tvShowViewPager.getCurrentItem());
+                hideProgress();
+            } else if (savedInstanceState.getBoolean(STATE_LOADING)) {
+                showProgress();
+            } else {
+                hideProgressWithError("");
+            }
         }
 
         initTvShowViewPager();
@@ -123,19 +139,27 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     public void showProgress() {
         isLoading = true;
         tvShowViewPager.setVisibility(View.GONE);
+        errorLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressWithError(String reason) {
-        // skip
+        Timber.tag("error").d("hide progress with error");
+        isError = true;
+        isLoading = false;
+        errorLayout.setVisibility(View.VISIBLE);
+        tvShowViewPager.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void hideProgress() {
+        isError = false;
         isLoading = false;
         tvShowViewPager.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+        errorLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -148,5 +172,10 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     @Override
     public long getUserSelectedTvShowId() {
         return selectedTvShow.getId();
+    }
+
+    @OnClick(R.id.layout_error)
+    void onClickError() {
+        getPresenter().loadSimilarShowsWhenError();
     }
 }

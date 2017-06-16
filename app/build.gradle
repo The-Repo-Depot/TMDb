@@ -13,6 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
 
         buildConfigField 'String', 'TMDB_API_KEY', '"eae426df77219f6528405b00e8508d02"'
         buildConfigField 'String', 'TMDB_API_URL', '"https://api.themoviedb.org/3/tv/"'

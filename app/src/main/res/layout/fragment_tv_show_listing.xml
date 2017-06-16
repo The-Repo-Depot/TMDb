@@ -25,7 +25,6 @@
         android:visibility="gone"/>
 
     <include
-        layout="@layout/view_error_no_content"
-        android:visibility="gone"/>
+        layout="@layout/view_error_no_content"/>
 
 </RelativeLayout>

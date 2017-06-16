@@ -40,6 +40,7 @@ public class TvShowListingPresenter extends BasePresenter<TvShowListingView> {
                     public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                         if (view != null) {
                             if (pageNumber == 1) {
+                                view.hideErrors();
                                 if (view.isRefreshing()) {
                                     view.hideRefreshing();
                                 } else {
@@ -78,6 +79,12 @@ public class TvShowListingPresenter extends BasePresenter<TvShowListingView> {
 
     public void reload() {
         pageNumber = 1;
+        loadTvShows();
+    }
+
+    public void reloadWhenError() {
+        pageNumber = 1;
+        view.showProgress();
         loadTvShows();
     }
 }

@@ -18,5 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
+    <include
+        layout="@layout/view_error_no_content"/>
+
 </RelativeLayout>
 

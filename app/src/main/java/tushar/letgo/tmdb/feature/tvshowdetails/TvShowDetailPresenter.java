@@ -32,6 +32,11 @@ public class TvShowDetailPresenter extends BasePresenter<TvShowDetailView> {
         }
     }
 
+    public void loadSimilarShowsWhenError() {
+        view.showProgress();
+        loadSimilarTvShows();
+    }
+
     private void loadSimilarTvShows() {
         apiService.getSimilarTvShows(
                 String.valueOf(view.getUserSelectedTvShowId()),
@@ -42,15 +47,15 @@ public class TvShowDetailPresenter extends BasePresenter<TvShowDetailView> {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                 if (view != null) {
-                    view.showSimilarShows(response.body().tvShows);
                     view.hideProgress();
+                    view.showSimilarShows(response.body().tvShows);
                 }
             }
 
             @Override
             public void onFailure(Call<Response> call, Throwable t) {
                 if (view != null) {
-                    view.hideProgress();
+                    view.hideProgressWithError(t.getMessage());
                 }
             }
         });

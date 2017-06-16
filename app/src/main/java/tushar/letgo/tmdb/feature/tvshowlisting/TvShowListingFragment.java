@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import org.parceler.Parcels;
@@ -21,6 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import timber.log.Timber;
 import tushar.letgo.tmdb.R;
 import tushar.letgo.tmdb.common.mvp.BasePresenterFragment;
@@ -41,6 +43,7 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
 
     public static final String TAG = TvShowListingFragment.class.getName();
 
+    private static final String STATE_ERROR = "state_error";
     private static final String STATE_TV_SHOWS = "state_shows";
     private static final String STATE_SELECTED_POSITION = "state_selected_position";
 
@@ -53,8 +56,8 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     @Bind(R.id.progress_bar)
     ProgressBar mProgressBar;
 
-    @Bind(R.id.view_error_no_content)
-    View mErrorNoContentView;
+    @Bind(R.id.layout_error)
+    LinearLayout errorLayout;
 
     private GridLayoutManager mGridLayoutManager;
 
@@ -67,6 +70,8 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     List<TvShow> tvShows = new ArrayList<>();
 
     int mSelectedPosition = -1;
+
+    private boolean isError;
 
     @Inject
     TvShowListingPresenter presenter;
@@ -93,6 +98,7 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mTvShowRecyclerViewAdapter != null) {
+            outState.putBoolean(STATE_ERROR, isError);
             outState.putParcelable(STATE_TV_SHOWS, Parcels.wrap(mTvShowRecyclerViewAdapter.getAllItems()));
             outState.putInt(STATE_SELECTED_POSITION, mSelectedPosition);
         }
@@ -103,10 +109,12 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
         super.onViewCreated(view, savedInstanceState);
 
         if (savedInstanceState != null) {
-            tvShows = Parcels.unwrap(savedInstanceState.getParcelable(STATE_TV_SHOWS));
-            mSelectedPosition = savedInstanceState != null
-                    ? savedInstanceState.getInt(STATE_SELECTED_POSITION, -1)
-                    : -1;
+            if (!savedInstanceState.getBoolean(STATE_ERROR)) {
+                tvShows = Parcels.unwrap(savedInstanceState.getParcelable(STATE_TV_SHOWS));
+                mSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION, -1);
+            } else {
+                showTvShowLoadingError();
+            }
         }
 
         initSwipeRefreshLayout();
@@ -194,12 +202,14 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     public void showProgress() {
         mSwipeRefreshLayout.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
+        errorLayout.setVisibility(View.GONE);
     }
 
     @Override
     public void hideProgress() {
         mSwipeRefreshLayout.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
+        errorLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -222,6 +232,7 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
 
     @Override
     public void showTvShows(List<TvShow> tvShows) {
+        isError = false;
         mTvShowRecyclerView.post(new Runnable() {
             public void run() {
                 mTvShowRecyclerViewAdapter.addAll(tvShows);
@@ -231,7 +242,7 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
 
     @Override
     public void hideErrors() {
-        mErrorNoContentView.setVisibility(View.GONE);
+        errorLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -241,10 +252,11 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
 
     @Override
     public void showTvShowLoadingError() {
+        isError = true;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mErrorNoContentView.setVisibility(View.VISIBLE);
+                errorLayout.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -257,5 +269,10 @@ public class TvShowListingFragment extends BasePresenterFragment<TvShowListingVi
     @Override
     public void hideRefreshing() {
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @OnClick(R.id.layout_error)
+    void onClickError() {
+        getPresenter().reloadWhenError();
     }
 }
