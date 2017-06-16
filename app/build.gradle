@@ -7,7 +7,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "tushar.letgo.tmdb"
+        applicationId "tushar.tmdb"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
