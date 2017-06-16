@@ -19,7 +19,7 @@
         android:layout_centerInParent="true"/>
 
     <include
-        layout="@layout/view_error_no_content"/>
+        layout="@layout/view_error_no_content_details"/>
 
 </RelativeLayout>
 

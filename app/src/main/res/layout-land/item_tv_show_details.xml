@@ -64,7 +64,6 @@
                         style="@style/TvShowTitleText"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/bg_rating"
-                        android:drawableLeft="@drawable/ic_star"
                         android:drawablePadding="2dp"
                         android:gravity="center_vertical"
                         android:paddingBottom="1dp"

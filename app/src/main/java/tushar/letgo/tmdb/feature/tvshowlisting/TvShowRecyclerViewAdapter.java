@@ -112,7 +112,7 @@ public class TvShowRecyclerViewAdapter extends BaseRecyclerViewAdapter<TvShow, R
         public void bind(final int position) {
             mTvShow = objects.get(position);
             mTitleView.setText(mTvShow.getTitle());
-            mRatingView.setText(mContext.getString(R.string.tv_rating_listing, mTvShow.getVoteAverage()));
+            mRatingView.setText(mContext.getString(R.string.tv_rating, mTvShow.getVoteAverage()));
 
             if (mTvShowId != mTvShow.getId()) {
                 resetColors();
