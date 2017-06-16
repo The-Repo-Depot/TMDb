@@ -14,6 +14,7 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 import tushar.letgo.tmdb.api.ApiService;
@@ -83,6 +84,7 @@ public class App extends Application {
                 .baseUrl(url)
                 .client(provideOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create(provideGson()))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
 

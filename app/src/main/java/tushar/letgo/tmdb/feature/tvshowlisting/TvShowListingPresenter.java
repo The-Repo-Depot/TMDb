@@ -1,9 +1,12 @@
 package tushar.letgo.tmdb.feature.tvshowlisting;
 
-import retrofit2.Call;
-import retrofit2.Callback;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import tushar.letgo.tmdb.BuildConfig;
 import tushar.letgo.tmdb.api.ApiService;
+import tushar.letgo.tmdb.api.NetworkCallback;
 import tushar.letgo.tmdb.common.mvp.BasePresenter;
 import tushar.letgo.tmdb.model.Response;
 
@@ -16,6 +19,8 @@ public class TvShowListingPresenter extends BasePresenter<TvShowListingView> {
     private ApiService apiService;
 
     private int pageNumber = 1;
+
+    private Subscriber subscriber;
 
     public TvShowListingPresenter(ApiService apiService) {
         this.apiService = apiService;
@@ -35,40 +40,53 @@ public class TvShowListingPresenter extends BasePresenter<TvShowListingView> {
 
     private void loadTvShows() {
         apiService.getPopularTvShows(BuildConfig.TMDB_API_KEY, "en-US", pageNumber)
-                .enqueue(new Callback<Response>() {
-                    @Override
-                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                        if (view != null) {
-                            if (pageNumber == 1) {
-                                view.hideErrors();
-                                if (view.isRefreshing()) {
-                                    view.hideRefreshing();
-                                } else {
-                                    view.hideProgress();
-                                }
-                            } else {
-                                view.hideTvShowsLoadingProgress();
-                            }
-                            view.showTvShows(response.body().tvShows);
-                        }
-                    }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(createSubscriber());
+    }
 
-                    @Override
-                    public void onFailure(Call<Response> call, Throwable t) {
-                        if (view != null) {
-                            if (pageNumber == 1) {
-                                if (view.isRefreshing()) {
-                                    view.hideRefreshing();
-                                } else {
-                                    view.hideProgress();
-                                    view.showTvShowLoadingError();
-                                }
-                            } else {
-                                view.hideTvShowsLoadingProgress();
-                            }
+    private Observer<Response> createSubscriber() {
+        subscriber = new NetworkCallback<Response>() {
+            @Override
+            public void onSuccess(Response model) {
+                if (view != null) {
+                    if (pageNumber == 1) {
+                        view.hideErrors();
+                        if (view.isRefreshing()) {
+                            view.hideRefreshing();
+                        } else {
+                            view.hideProgress();
                         }
+                    } else {
+                        view.hideTvShowsLoadingProgress();
                     }
-                });
+                    view.showTvShows(model.tvShows);
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                if (view != null) {
+                    if (pageNumber == 1) {
+                        if (view.isRefreshing()) {
+                            view.hideRefreshing();
+                        } else {
+                            view.hideProgress();
+                            view.showTvShowLoadingError();
+                        }
+                    } else {
+                        view.hideTvShowsLoadingProgress();
+                    }
+                }
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+
+        return subscriber;
     }
 
     public void loadMore() {
@@ -86,5 +104,13 @@ public class TvShowListingPresenter extends BasePresenter<TvShowListingView> {
         pageNumber = 1;
         view.showProgress();
         loadTvShows();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (subscriber != null) {
+            subscriber.unsubscribe();
+        }
     }
 }
