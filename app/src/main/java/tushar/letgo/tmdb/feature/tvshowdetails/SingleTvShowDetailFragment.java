@@ -133,7 +133,7 @@ public class SingleTvShowDetailFragment extends BaseFragment {
                 .into(mCoverImage);
 
         tvShowDetailTitle.setText(tvShow.getTitle());
-        tvShowDetailRating.setText(String.valueOf(tvShow.getVoteAverage()));
+        tvShowDetailRating.setText(getActivity().getString(R.string.tv_rating_details, tvShow.getVoteAverage()));
         tvShowDetailAirTime.setText(getString(R.string.dot) + " " +
                 DateConverter.getDisplayReleaseTime(tvShow.getFirstAirDate()));
 

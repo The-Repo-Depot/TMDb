@@ -56,7 +56,7 @@
                     style="@style/TvShowTitleText"
                     android:textColor="@color/rating_text_color"
                     android:textSize="@dimen/rating_size_medium"
-                    tools:text="8.9"/>
+                    tools:text="@string/star"/>
 
             </LinearLayout>
 
