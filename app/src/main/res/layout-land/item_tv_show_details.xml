@@ -13,8 +13,7 @@
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize"
-        android:background="@drawable/bg_rounded_tv_show_details">
+        android:layout_marginTop="?actionBarSize">
 
         <tushar.letgo.tmdb.common.view.AspectLockedImageView
             android:id="@+id/img_tv_show_cover"
