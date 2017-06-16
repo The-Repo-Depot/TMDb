@@ -20,7 +20,6 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import timber.log.Timber;
 import tushar.letgo.tmdb.R;
 import tushar.letgo.tmdb.common.mvp.BasePresenterFragment;
 import tushar.letgo.tmdb.dipendency.feature.tvshowdetails.TvShowDetailModule;
@@ -94,8 +93,8 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
         outState.putParcelable(STATE_TV_SHOWS, Parcels.wrap(tvShows));
         outState.putBoolean(STATE_ERROR, isError);
         outState.putInt(STATE_SELECTED_POSITION, tvShowViewPager.getCurrentItem());
-        Timber.tag("save instance state").d("tv show size %d", tvShows.size());
-        Timber.tag("save instance state").d("current position %d", tvShowViewPager.getCurrentItem());
+//        Timber.tag(TAG).d("tv show size %d", tvShows.size());
+//        Timber.tag(TAG).d("current position %d", tvShowViewPager.getCurrentItem());
     }
 
     @Override
@@ -107,7 +106,7 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
                     && !savedInstanceState.getBoolean(STATE_ERROR)) {
                 tvShows = Parcels.unwrap(savedInstanceState.getParcelable(STATE_TV_SHOWS));
                 mSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION, -1);
-                Timber.tag("on retain").d("tv show size %d, current position %d", tvShows.size(), tvShowViewPager.getCurrentItem());
+//                Timber.tag(TAG).d("tv show size %d, current position %d", tvShows.size(), tvShowViewPager.getCurrentItem());
                 hideProgress();
             } else if (savedInstanceState.getBoolean(STATE_LOADING)) {
                 showProgress();
@@ -131,7 +130,7 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
             if (tvShowViewPager.getVisibility() == View.GONE) {
                 tvShowViewPager.setVisibility(View.VISIBLE);
             }
-            Timber.tag("init TvShowViewPager").d("current position %d", tvShowViewPager.getCurrentItem());
+//            Timber.tag(TAG).d("current position %d", tvShowViewPager.getCurrentItem());
         }
     }
 
@@ -147,7 +146,7 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
 
     @Override
     public void hideProgressWithError(String reason) {
-        Timber.tag("error").d("hide progress with error");
+//        Timber.tag(TAG).d("hide progress with error");
         isError = true;
         isLoading = false;
         getActivity().runOnUiThread(() -> {

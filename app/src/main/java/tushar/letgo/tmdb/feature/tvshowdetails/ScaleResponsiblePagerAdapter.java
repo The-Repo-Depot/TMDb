@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import timber.log.Timber;
 import tushar.letgo.tmdb.R;
 import tushar.letgo.tmdb.model.TvShow;
 
@@ -19,7 +18,6 @@ public class ScaleResponsiblePagerAdapter extends FragmentPagerAdapter implement
     public final static float BIG_SLIDE = 1f;
     public final static float SMALL_SLIDE = 0.90f;
     public final static float DIFF_SLIDE = BIG_SLIDE - SMALL_SLIDE;
-    private Context context;
     private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
     private List<TvShow> tvShows;
@@ -28,7 +26,6 @@ public class ScaleResponsiblePagerAdapter extends FragmentPagerAdapter implement
 
     public ScaleResponsiblePagerAdapter(Context context, List<TvShow> tvShows, FragmentManager fm) {
         super(fm);
-        this.context = context;
         this.tvShows = tvShows;
     }
 
@@ -56,8 +53,8 @@ public class ScaleResponsiblePagerAdapter extends FragmentPagerAdapter implement
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Timber.d("position: %4f", positionOffset);
-        Timber.d("position no: ", position);
+//        Timber.d("position: %4f", positionOffset);
+//        Timber.d("position no: ", position);
 
         try {
             if (positionOffset >= 0f && positionOffset <= 1f) {

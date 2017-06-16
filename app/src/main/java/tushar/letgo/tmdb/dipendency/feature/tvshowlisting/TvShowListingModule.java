@@ -13,11 +13,6 @@ import tushar.letgo.tmdb.feature.tvshowlisting.TvShowListingPresenter;
 
 @Module
 public class TvShowListingModule {
-
-    public TvShowListingModule() {
-
-    }
-
     @Provides
     @Singleton
     public TvShowListingPresenter provideTvShowListingPresenter(ApiService apiService) {

@@ -19,7 +19,6 @@ import com.github.florent37.glidepalette.GlidePalette;
 import org.parceler.Parcels;
 
 import butterknife.Bind;
-import timber.log.Timber;
 import tushar.letgo.tmdb.R;
 import tushar.letgo.tmdb.common.base.BaseFragment;
 import tushar.letgo.tmdb.model.TvShow;
@@ -105,14 +104,14 @@ public class SingleTvShowDetailFragment extends BaseFragment {
 
         if (savedInstanceState != null) {
             tvShow = Parcels.unwrap(savedInstanceState.getParcelable(STATE_TV_SHOW));
-            Timber.tag("on retain").d("single tv show position %d", position);
+//            Timber.tag("on retain").d("single tv show position %d", position);
         }
 
         setContent();
     }
 
     private void setContent() {
-        Timber.tag("on single tv show").d("single tv show position %d", position);
+//        Timber.tag("on single tv show").d("single tv show position %d", position);
 
         int marginWidth = ((Resources.getSystem().getDisplayMetrics().widthPixels / 10) * 2);
         int marginHeight = ((Resources.getSystem().getDisplayMetrics().heightPixels / 8) * 2);

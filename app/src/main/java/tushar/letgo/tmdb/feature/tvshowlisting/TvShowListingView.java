@@ -9,7 +9,6 @@ import tushar.letgo.tmdb.model.TvShow;
  */
 
 public interface TvShowListingView {
-
     void showProgress();
 
     void hideProgress();

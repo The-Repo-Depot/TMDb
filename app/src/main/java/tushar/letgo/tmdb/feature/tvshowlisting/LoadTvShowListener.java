@@ -5,7 +5,6 @@ import java.util.List;
 import tushar.letgo.tmdb.model.TvShow;
 
 public interface LoadTvShowListener {
-
     void onTvShowLoadingStart();
 
     void onTvShowLoadingSuccess(List<TvShow> tvShows);

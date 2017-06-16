@@ -67,9 +67,9 @@ public class App extends Application {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             okhttpClientBuilder.addInterceptor(loggingInterceptor);
 
-            okhttpClientBuilder.connectTimeout(10, TimeUnit.SECONDS);
-            okhttpClientBuilder.readTimeout(10, TimeUnit.SECONDS);
-            okhttpClientBuilder.writeTimeout(10, TimeUnit.SECONDS);
+            okhttpClientBuilder.connectTimeout(30, TimeUnit.SECONDS);
+            okhttpClientBuilder.readTimeout(30, TimeUnit.SECONDS);
+            okhttpClientBuilder.writeTimeout(30, TimeUnit.SECONDS);
 
             File cacheDir = new File(getCacheDir(), "http");
             Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
