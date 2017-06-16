@@ -138,9 +138,11 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
     @Override
     public void showProgress() {
         isLoading = true;
-        tvShowViewPager.setVisibility(View.GONE);
-        errorLayout.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
+        getActivity().runOnUiThread(() -> {
+            tvShowViewPager.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        });
     }
 
     @Override
@@ -148,18 +150,22 @@ public class TvShowDetailFragment extends BasePresenterFragment<TvShowDetailView
         Timber.tag("error").d("hide progress with error");
         isError = true;
         isLoading = false;
-        errorLayout.setVisibility(View.VISIBLE);
-        tvShowViewPager.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
+        getActivity().runOnUiThread(() -> {
+            errorLayout.setVisibility(View.VISIBLE);
+            tvShowViewPager.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+        });
     }
 
     @Override
     public void hideProgress() {
         isError = false;
         isLoading = false;
-        tvShowViewPager.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-        errorLayout.setVisibility(View.GONE);
+        getActivity().runOnUiThread(() -> {
+            tvShowViewPager.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.GONE);
+        });
     }
 
     @Override
