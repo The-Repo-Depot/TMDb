@@ -16,3 +16,6 @@
 ![Scheme](screens/portrait.png)
 
 ![Scheme](screens/landscape.png)
+
+### APK ###
+[TMDb_v1.2.apk](apk/TMDb_v1.2.apk)
